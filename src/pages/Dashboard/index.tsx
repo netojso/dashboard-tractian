@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useCallback, useState } from 'react';
 import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
@@ -7,6 +7,8 @@ import { ArrowUpOutlined, SearchOutlined, UploadOutlined, UserOutlined, VideoCam
 import switchPages from '../../utils/switchPage';
 import Ativos from './sections/Ativos';
 import Overview from './sections/Overview';
+import Companies from './sections/Companies';
+import Units from './sections/Units';
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -25,10 +27,12 @@ const Dashboard: React.FC = () => {
       case "Ativos":
         return <Ativos />;
         break;
-      case "Empresas":
-        return <Overview />;
+      case "Companies":
+        return <Companies />;
         break;
-
+      case "Units":
+        return <Units />;
+        break;
       default:
         return <Overview />;
         break;
@@ -44,7 +48,7 @@ const Dashboard: React.FC = () => {
           <div style={{width: 256, padding: "10px 20px" }}>
           <Avatar src="https://tractian.com/wp-content/uploads/cropped-tractian-favicon-ia-32x32.png" />
         <strong style={{marginLeft: 10}}>Tractian</strong></div>
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={['Overview']} onSelect={(e) => {setPage(e.key.toString())} }>
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={["Overview"]} onSelect={(e) => setPage(e.key.toString()) }>
             <Menu.Item key="Overview" icon={<UserOutlined />} >
             Overview
             </Menu.Item>

@@ -1,129 +1,112 @@
 import React from 'react';
+import "./styles.css";
 
 import * as Highcharts from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
-import {Menu, Layout , PageHeader, Row, Col, Avatar, Card, Statistic, Divider} from 'antd';
+import {Menu, Layout , PageHeader, Row, Col, Avatar, Card, Statistic, Divider, Tag} from 'antd';
 import { ArrowUpOutlined, SearchOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const options: Highcharts.Options = {
-  chart: {
-    type: 'areaspline',
-},
-title: {
-    text: 'Average fruit consumption during one week',
-},
-legend: {
-    layout: 'vertical',
-    align: 'left',
-    verticalAlign: 'top',
-    x: 150,
-    y: 100,
-    floating: true,
-    borderWidth: 1,
-    backgroundColor:
-        Highcharts.defaultOptions.legend?.backgroundColor || '#FFFFFF',
-},
-xAxis: {
-    categories: [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-    ],
-    plotBands: [{ // visualize the weekend
-        from: 4.5,
-        to: 6.5,
-        color: 'rgba(68, 170, 213, .2)',
-    }]
+    title: {
+        text: 'Histórico de Saúde dos ativos'
     },
     yAxis: {
         title: {
-            text: 'Fruit units',
-        },
-    },
-    tooltip: {
-        shared: true,
-        valueSuffix: ' units',
-    },
-    credits: {
-        enabled: false,
-    },
-    plotOptions: {
-        areaspline: {
-            fillOpacity: 0.5,
+            text: 'Saúde (%)'
         }
     },
+    xAxis: {
+        categories: [
+            "Janeiro","Fevereiro", "Março","Abril","Maio",
+            "Junho","Julho","Agosto","Setembro","Outubro",
+            "Novembro","Dezembro"
+        ]
+    },
+    legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'middle'
+    },
+
+    plotOptions: {
+        series: {
+            label: {
+                connectorAllowed: false
+            },
+            pointStart: 0
+        }
+    },
+
     series: [{
         type: 'line',
-        name: 'John',
-        data: [3, 4, 3, 5, 4, 10, 12],
+        name: 'Installation',
+        data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
     }, {
         type: 'line',
-        name: 'Jane',
-        data: [1, 3, 4, 3, 3, 5, 4],
-    }]
+        name: 'Manufacturing',
+        data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
+    }, {
+        type: 'line',
+        name: 'Sales & Distribution',
+        data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
+    }, {
+        type: 'line',
+        name: 'Project Development',
+        data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
+    }, {
+        type: 'line',
+        name: 'Other',
+        data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
+    }],
+
+    responsive: {
+        rules: [{
+            condition: {
+                maxWidth: 500
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
 }
 
 const Overview: React.FC = () => {
   return (
     <>
     <Content style={{ margin: '24px 16px 0', maxHeight: 150 }}>
-        <Row gutter={8}>
-             <Col className="gutter-row" span={6}>
-             <Card>
-                <Statistic
-                    title="Active"
-                    value={11.28}
-                    precision={2}
-                    valueStyle={{ color: '#3f8600' }}
-                    prefix={<ArrowUpOutlined />}
-                    suffix="%"
-                />
+        <Row gutter={40} style={{textAlign: 'center'}}>
+            <Col span={6}>
+                <Card className="card">
+                    <strong className="cardTitle">Ativos</strong>
+                    <p className="cardText">6</p>
                 </Card>
-             </Col>
-             <Col className="gutter-row" span={6}>
-             <Card>
-                <Statistic
-                    title="Active"
-                    value={11.28}
-                    precision={2}
-                    valueStyle={{ color: '#3f8600' }}
-                    prefix={<ArrowUpOutlined />}
-                    suffix="%"
-                />
+            </Col>
+            <Col span={6}>
+                <Card className="card">
+                    <strong className="cardTitle">Ativos</strong>
+                    <p className="cardText">6</p>
                 </Card>
-             </Col>
-             <Col className="gutter-row" span={6}>
-             <Card hoverable>
-                <Statistic
-                    title="Active"
-                    value={11.28}
-                    precision={2}
-                    valueStyle={{ color: '#3f8600' }}
-                    prefix={<ArrowUpOutlined />}
-                    suffix="%"
-                />
+            </Col>
+            <Col span={6}>
+                <Card className="card">
+                    <strong className="cardTitle">Ativos</strong>
+                    <p className="cardText">6</p>
                 </Card>
-             </Col>
-             <Col className="gutter-row" span={6}>
-             <Card>
-                <Statistic
-                    title="Active"
-                    value={11.28}
-                    precision={2}
-                    valueStyle={{ color: '#3f8600' }}
-                    prefix={<ArrowUpOutlined />}
-                    suffix="%"
-                />
+            </Col>
+            <Col span={6}>
+                <Card className="card">
+                    <strong className="cardTitle">Ativos</strong>
+                    <p className="cardText">6</p>
                 </Card>
-             </Col>
-
+            </Col>
          </Row>
         </Content>
         <Content
@@ -142,22 +125,28 @@ const Overview: React.FC = () => {
                 />
                 </Col>
                 <Col span={6} title="Últimos ativos">
-                  <strong style={{padding: '8px 16px'}}>Últimos ativos</strong>
-                  <div  style={{overflow: 'auto', height: 400, marginTop: 10}}>
-                    <Card title="Card title" bordered={false} >
-                      <p>Card content</p>
-                      <p>Card content</p>
-                      <p>Card content</p>
+                  <p style={{padding: '4px 20px', fontSize: 18}}>Últimos ativos</p>
+                  <div  style={{overflow: 'auto', height: 400, marginTop: 10, marginLeft: 15}}>
+                    <Card title="Motor ED-4F" bordered={false} style={{borderLeft: '1px solid #DFE0EB'}} >
+                      <p><strong>Sáude:</strong> 90%
+                      <Tag color="red" style={{marginLeft: 55}}>Em alerta</Tag>
+                      </p>
+                      <p><strong>Empresa: </strong> Tractian</p>
+                      <p><strong>Unidade: </strong> Jaguar</p>
                     </Card>
-                    <Card title="Card title" bordered={false} >
-                      <p>Card content</p>
-                      <p>Card content</p>
-                      <p>Card content</p>
+                    <Card title="Card title" bordered={false} style={{borderLeft: '1px solid #DFE0EB'}} >
+                    <p><strong>Sáude:</strong> 90%
+                      <Tag color="red" style={{marginLeft: 50}}>Em alerta</Tag>
+                      </p>
+                      <p><strong>Empresa: </strong> Tractian</p>
+                      <p><strong>Unidade: </strong> Jaguar</p>
                     </Card>
-                    <Card title="Card title" bordered={false} >
-                      <p>Card content</p>
-                      <p>Card content</p>
-                      <p>Card content</p>
+                    <Card title="Card title" bordered={false} style={{borderLeft: '1px solid #DFE0EB'}} >
+                    <p><strong>Sáude:</strong> 90%
+                      <Tag color="red" style={{marginLeft: 50}}>Em alerta</Tag>
+                      </p>
+                      <p><strong>Empresa: </strong> Tractian</p>
+                      <p><strong>Unidade: </strong> Jaguar</p>
                     </Card>
                   </div>
 
