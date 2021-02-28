@@ -10,6 +10,7 @@ import { Company } from '../../../../@types/company';
 import { Unit } from '../../../../@types/unit';
 import api from '../../../../services/api';
 import { SyncOutlined } from '@ant-design/icons';
+import { User } from '../../../../@types/user';
 
 const { Content } = Layout;
 
@@ -26,12 +27,16 @@ const columns = [
     dataIndex: 'name',
   },
   {
-    title: 'Empresa',
-    dataIndex: 'company',
+    title: 'E-mail',
+    dataIndex: 'email',
   },
   {
-    title: 'Ativos',
-    dataIndex: 'assets',
+    title: 'Unidade',
+    dataIndex: 'unit',
+  },
+  {
+    title: 'Empresa',
+    dataIndex: 'company',
   },
 
 ];
@@ -41,31 +46,38 @@ const rowSelection = {
 };
 
 
-const Units: React.FC = () => {
+const Users: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [companies, setCompanies] = useState<{value: number, display: string}[]>([]);
+  const [units, setUnits] = useState<{value: number, display: string}[]>([]);
 
   const [openNewItemModal, setOpenNewItemModal] = useState(false);
   const [tableData, setTableData] = useState<any>();
 
   useEffect(() => {
     async function loadData() {
-        const {data: assetsData} = await api.get<Asset[]>('/assets');
+        const {data: usersData} = await api.get<User[]>('/users');
         const {data: companiesData} = await api.get<Company[]>('/companies');
         const {data: unitsData} = await api.get<Unit[]>('/units');
 
-        const teste = companiesData.map(company => {
+        const companiesOptions = companiesData.map(company => {
           return {value: company.id, display: company.name }
         });
 
-        setCompanies(teste);
+        const unitsOptions = unitsData.map(unit => {
+          return {value: unit.id, display: unit.name }
+        });
 
-        const data = unitsData?.map(unit => {
+        setCompanies(companiesOptions);
+        setUnits(unitsOptions);
+
+        const data = usersData?.map(user => {
           return {
-            key: unit.id,
-            name: unit.name,
-            company: companiesData?.find(c => c.id === unit.companyId)?.name,
-            assets: assetsData?.map(a => a.unitId === unit.id)?.length
+            key: user.id,
+            name: user.name,
+            email: user.email,
+            company: companiesData?.find(c => c.id === user.companyId)?.name,
+            unit: unitsData?.find(u => u.id === user.id)?.name
           }
         })
 
@@ -99,10 +111,10 @@ const Units: React.FC = () => {
       <SyncOutlined className='spinLoading' spin />
     )}
 
-   <NewItemModal selectCompanies={companies} openNewItemModal={openNewItemModal} toggleModal={setOpenNewItemModal} />
+   <NewItemModal selectCompanies={companies} selectUnits={units} openNewItemModal={openNewItemModal} toggleModal={setOpenNewItemModal} />
 
 </Content>
     );
 }
 
-export default Units;
+export default Users;

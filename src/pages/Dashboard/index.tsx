@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Menu, Layout, PageHeader, Avatar } from 'antd';
 import { SearchOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import Ativos from './sections/Ativos';
-import Overview from './sections/Overview';
-import Companies from './sections/Companies';
-import Units from './sections/Units';
+import Ativos from './Sections/Ativos';
+import Overview from './Sections/Overview';
+import Companies from './Sections/Companies';
+import Units from './Sections/Units';
+import Users from './Sections/Users';
 
 
 const { Header, Sider } = Layout;
@@ -28,12 +29,15 @@ const Dashboard: React.FC = () => {
       case "Unidades":
         return <Units />;
 
+      case "Usuários":
+        return <Users />;
+
       default:
         return <Overview />;
 
     }
   }
-  
+
   return (
     <Layout style={{ minHeight: '100vh' }}>
 
@@ -45,17 +49,20 @@ const Dashboard: React.FC = () => {
         </div>
 
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["Overview"]} onSelect={(e) => setPage(e.key.toString())}>
-          <Menu.Item key="Overview" icon={<UserOutlined />} >
+          <Menu.Item key="Overview" >
             Overview
             </Menu.Item>
-          <Menu.Item key="Ativos" icon={<VideoCameraOutlined />} >
+          <Menu.Item key="Ativos" >
             Ativos
             </Menu.Item>
-          <Menu.Item key="Unidades" icon={<UploadOutlined />}>
+          <Menu.Item key="Unidades" >
             Unidades
             </Menu.Item>
-          <Menu.Item key="Empresas" icon={<UserOutlined />} >
+          <Menu.Item key="Empresas" >
             Empresas
+            </Menu.Item>
+          <Menu.Item key="Usuários" >
+            Usuários
             </Menu.Item>
         </Menu>
       </Sider>
@@ -69,7 +76,7 @@ const Dashboard: React.FC = () => {
             ]}/>
         </Header>
 
-        {switchPages(page)}   
+        {switchPages(page)}
 
       </Layout>
     </Layout>

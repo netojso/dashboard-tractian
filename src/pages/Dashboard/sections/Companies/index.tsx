@@ -1,31 +1,22 @@
 import React, { useEffect, useState } from 'react';
+import './styles.css';
 
-import { Avatar, Button, Card, Carousel, Col, DatePicker, Form, Input, InputNumber, Layout, Modal, Row, Select, Slider, Table, Tag, Tree, Upload } from 'antd';
+import { Layout, Table } from 'antd';
 
-import * as Highcharts from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
-import { DeleteOutlined, EditOutlined, EllipsisOutlined, PlusCircleOutlined, SettingOutlined, UploadOutlined } from '@ant-design/icons';
-import Meta from 'antd/lib/card/Meta';
 import TableOptions from '../../components/TableOptions';
 import NewItemModal from './components/NewItemModal';
 import { Asset } from '../../../../@types/asset';
 import { Company } from '../../../../@types/company';
 import { Unit } from '../../../../@types/unit';
 import api from '../../../../services/api';
+import { SyncOutlined } from '@ant-design/icons';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Content } = Layout;
 
 interface DataType {
   key: React.Key;
   name: string;
 }
-
-const data: DataType[] = [
-  {
-    key: '1',
-    name: 'John Brown',
-  }
-];
 
 const columns = [
   {
@@ -54,6 +45,8 @@ const rowSelection = {
 
 
 const Companies: React.FC = () => {
+  const [loading, setLoading] = useState(true);
+
   const [openNewItemModal, setOpenNewItemModal] = useState(false);
   const [tableData, setTableData] = useState<any>();
 
@@ -67,12 +60,14 @@ const Companies: React.FC = () => {
           return {
             key: company.id,
             name: company.name,
-            units: unitsData?.map(u => u.companyId === company.id)?.length,  
+            units: unitsData?.map(u => u.companyId === company.id)?.length,
             assets: assetsData?.map(a => a.companyId === company.id)?.length
           }
         })
 
         if(data !== undefined) setTableData(data);
+
+        setLoading(false);
 
     }
 
@@ -90,11 +85,19 @@ const Companies: React.FC = () => {
     }}
   >
     <TableOptions openModal={setOpenNewItemModal} />
-    
-    <Table rowSelection={rowSelection} dataSource={tableData} columns={columns} />
+
+      {!loading ? (
+        <Table
+          rowSelection={rowSelection}
+          dataSource={tableData}
+          columns={columns}
+          />
+      ): (
+        <SyncOutlined className='spinLoading' spin />
+      )}
 
     <NewItemModal openNewItemModal={openNewItemModal} toggleModal={setOpenNewItemModal} />
-   
+
 </Content>
     );
 }

@@ -6,6 +6,7 @@ import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import React from 'react';
 import { Asset } from '../../../../../../@types/asset';
+import translateStatus from '../../../../../../utils/translateStatus';
 
 interface InfoModalProps {
   asset?: Asset,
@@ -13,10 +14,10 @@ interface InfoModalProps {
   toggleModal: (value: boolean) => void;
 }
 
-let modelOptions: Highcharts.Options = {
+const modelOptions: Highcharts.Options = {
   chart: {
       type: 'chart',
-      height: '60%',
+      height: '70%',
   },
 
   title: {
@@ -33,11 +34,11 @@ let modelOptions: Highcharts.Options = {
         fontSize: '16px'
     },
     valueSuffix: '%',
-    pointFormat: '<span style="font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
-    positioner: function(label) {
+    pointFormat: '<span style="opacity: 1; transform: translate(263px, 218px); visibility: visible; font-size:2em; color: {point.color}; font-weight: bold">{point.y}</span>',
+    positioner: function(labelWidth) {
       return {
-        x: 255,
-        y: 185
+        x: (this.chart.chartWidth - labelWidth) / 2,
+        y: (this.chart.plotHeight / 2) + 40
       }
     }
   },
@@ -67,45 +68,8 @@ let modelOptions: Highcharts.Options = {
           stickyTracking: false,
           rounded: true
       }
-  } 
+  }
 };
-
-const treeDataSpecifications = [
-  {
-    title: 'Especificações',
-    key: '4',
-    children: [
-      {
-        title: 'parent 1-0',
-        render: (text: string) => <p>{text}</p>,
-        key: '1',
-      },
-      {
-        title: 'parent 2-0',
-        disabled: true,
-        key: '2',
-      }
-    ]
-  }];
-
-const treeDataMetrics = [
-  {
-    title: 'Métricas',
-    key: '4',
-    children: [
-      {
-        title: 'parent 1-0',
-        key: '1',
-        selectable: false
-      },
-      {
-        title: 'parent 2-0',
-        disabled: true,
-        key: '2',
-      }
-    ]
-  }];
-
 
 const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}) => {
 
@@ -114,7 +78,7 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
       type: 'solidgauge',
       name: 'Move',
       data: [{
-          color: Number(asset?.healthscore?.toString) < 50 ? '#ff0000' : '#00ff04',
+          color: Number(asset?.healthscore?.toString) < 50 ? '#ff0000' : '#00ba2b',
           radius: '112%',
           innerRadius: '88%',
           y: asset?.healthscore
@@ -127,19 +91,19 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
     key: '1',
     children: [
       {
-        title: `Temp. Máxima: ${asset?.specifications?.maxTemp}°C`,
+        title: `Temp. Máxima: ${asset?.specifications?.maxTemp || 0}°C`,
         render: (text: string) => <strong>{text}</strong>,
         key: '2',
       },
       {
-        title: `Potência: ${asset?.specifications?.power}W`,
+        title: `Potência: ${asset?.specifications?.power || 0}W`,
         key: '3',
       },
       {
-        title: `RPM: ${asset?.specifications?.rpm}`,
+        title: `RPM: ${asset?.specifications?.rpm || 0}`,
         key: '4',
       },
-      
+
     ]
   }]
 
@@ -160,9 +124,10 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
         title: `Última coleta: ${asset?.metrics?.lastUptimeAt && new Date(asset?.metrics?.lastUptimeAt).toLocaleDateString()}`,
         key: '4',
       },
-      
+
     ]
   }]
+
   return (
     <Modal
       width="80%"
@@ -202,7 +167,9 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
         <Meta
           title={[
             <strong>{asset?.name}</strong>,
-            <Tag color="red" style={{marginLeft: 80}}>{asset?.status}</Tag>
+            <Tag
+              color={translateStatus(asset?.status)?.color}
+              style={{marginLeft: 70}}>{translateStatus(asset?.status)?.status}</Tag>
           ]}
           description={[
               <p><strong>Saúde:</strong> {asset?.healthscore + '%'}</p>,

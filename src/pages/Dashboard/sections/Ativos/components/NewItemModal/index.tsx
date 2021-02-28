@@ -5,6 +5,14 @@ import { Row, Col, Modal, Form, Input, Upload, Button, Slider, Select, InputNumb
 interface NewItemModalProps {
   openNewItemModal: boolean;
   toggleModal: (value: boolean) => void;
+  selectUnits?: {
+    value: number,
+    display: string
+  }[],
+  selectCompanies?: {
+    value: number,
+    display: string
+  }[]
 }
 
 
@@ -26,7 +34,7 @@ const Uploader = () => {
       updateFileList(info.fileList.filter((file: any) => file.status));
 
     }
-   
+
   };
   return (
     <Upload {...props}>
@@ -35,9 +43,10 @@ const Uploader = () => {
   );
 };
 
-const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModal}) => {
+const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModal, selectCompanies, selectUnits}) => {
   const [form] = Form.useForm();
   const [fileList, updateFileList] = useState([]);
+
   const props = {
     fileList,
     beforeUpload: (file: any) => {
@@ -54,12 +63,12 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
       updateFileList(info.fileList.filter((file: any) => file.status));
 
     }
-   
+
   };
 
   return (
     <Modal
-          style={{minWidth:800, padding: "0px 100px", top: 10}}
+          style={{minWidth:900, padding: "0px 100px", top: 10}}
           visible={openNewItemModal}
           title="Novo item"
           onOk={() => {
@@ -103,13 +112,13 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
               <Col span={12} style={{marginBottom: 20}}>
                 <Form.Item name="heathly" label="Saúde">
                   <Slider />
-                </Form.Item>   
+                </Form.Item>
               </Col>
               <Col span={12}>
               <Form.Item
                 name="status"
                 label="Status">
-                  <Select defaultValue="inAlert" onChange={(e) => console.log(e)}>
+                  <Select onChange={(e) => console.log(e)}>
                     <Select.Option value="inAlert">Em alerta</Select.Option>
                     <Select.Option value="inOperation">Em operação</Select.Option>
                     <Select.Option value="inDowntime">Em parada</Select.Option>
@@ -120,9 +129,9 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
                 <Form.Item
                 name="sensors"
                 label="Sensores instalados"
-                rules={[{ required: true, message: 'Please select your favourite colors!', type: 'array' }]}
+                rules={[{ required: true, message: 'Selecione um sensor', type: 'array' }]}
                 >
-                  <Select mode="multiple" placeholder="Please select favourite colors" style={{minWidth: 200}}>
+                  <Select mode="multiple" placeholder="Selecione alguns sensores" style={{minWidth: 200}}>
                     <Select.Option value="red">Red</Select.Option>
                     <Select.Option value="green">Green</Select.Option>
                     <Select.Option value="blue">Blue</Select.Option>
@@ -133,10 +142,10 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
               <Form.Item
                 name="unit"
                 label="Unidade">
-                  <Select defaultValue="inAlert" onChange={(e) => console.log(e)}>
-                    <Select.Option value="inAlert">Em alerta</Select.Option>
-                    <Select.Option value="inOperation">Em operação</Select.Option>
-                    <Select.Option value="inDowntime">Em parada</Select.Option>
+                  <Select onChange={(e) => console.log(e)}>
+                    {selectUnits?.map(unit => (
+                      <Select.Option key={unit.value} value={unit.value}>{unit.display}</Select.Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </Col>
@@ -144,10 +153,10 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
               <Form.Item
                 name="company"
                 label="Empresa">
-                  <Select defaultValue="inAlert" onChange={(e) => console.log(e)}>
-                    <Select.Option value="inAlert">Em alerta</Select.Option>
-                    <Select.Option value="inOperation">Em operação</Select.Option>
-                    <Select.Option value="inDowntime">Em parada</Select.Option>
+                  <Select onChange={(e) => console.log(e)}>
+                    {selectCompanies?.map(company => (
+                      <Select.Option key={company.value} value={company.value}>{company.display}</Select.Option>
+                    ))}
                   </Select>
                 </Form.Item>
               </Col>
@@ -201,8 +210,8 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
                   <DatePicker />
                 </Form.Item>
               </Col>
-            </Row>      
-          </Form>    
+            </Row>
+          </Form>
         </Modal>
   );
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Row, Col, Button } from 'antd';
-import { SizeClassIOS } from 'expo/build/ScreenOrientation/ScreenOrientation';
 
 // import { Container } from './styles';
 
@@ -12,7 +11,7 @@ interface TableOptionsProps {
 const TableOptions: React.FC<TableOptionsProps> = ({openModal}) => {
   return (
     <Row style={{marginBottom: 20}}>
-      <Col span={3} offset={0}>
+      <Col span={6} offset={0}>
         <Button
         style={{marginRight: 10}}
         onClick={() => {}}

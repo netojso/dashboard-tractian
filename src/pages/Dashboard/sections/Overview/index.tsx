@@ -12,6 +12,7 @@ import { Unit } from '../../../../@types/unit';
 import { Company } from '../../../../@types/company';
 import { User } from '../../../../@types/user';
 import InfoCard from './components/InfoCard';
+import translateStatus from '../../../../utils/translateStatus';
 
 
 let optionModel: Highcharts.Options = {
@@ -48,34 +49,6 @@ let optionModel: Highcharts.Options = {
             pointStart: 0
         }
     },
-
-    series: [{
-        type: 'column',
-        name: 'Saúde',
-        data: [
-            ['Shanghai', 24.2],
-            ['Beijing', 20.8],
-            ['Karachi', 14.9],
-            ['Shenzhen', 13.7],
-            ['Guangzhou', 13.1],
-            ['Istanbul', 12.7],
-            ['Mumbai', 12.4],
-            ['Moscow', 12.2],
-            ['São Paulo', 12.0],
-            ['Delhi', 11.7],
-            ['Kinshasa', 11.5],
-            ['Tianjin', 11.2],
-            ['Lahore', 11.1],
-            ['Jakarta', 10.6],
-            ['Dongguan', 10.6],
-            ['Lagos', 10.6],
-            ['Bengaluru', 10.3],
-            ['Seoul', 9.8],
-            ['Foshan', 9.3],
-            ['Tokyo', 9.3]
-        ]
-    }],
-
     responsive: {
         rules: [{
             condition: {
@@ -129,7 +102,7 @@ useEffect(() => {
 
     loadData();
 }, [])
-    
+
   return (
     <>
     <Layout.Content style={{ margin: '24px 16px 0', maxHeight: 150 }}>
@@ -150,7 +123,7 @@ useEffect(() => {
                   highcharts={Highcharts}
                   options={options}
                   />
-              )}               
+              )}
             </Col>
                 <Col span={6} title="Últimos ativos">
                   <p style={{padding: '4px 20px', fontSize: 18}}>Últimos ativos</p>
@@ -158,7 +131,9 @@ useEffect(() => {
                     {assets?.map(asset => (
                         <Card key={asset.id} title={asset.name} bordered={false} style={{borderLeft: '1px solid #DFE0EB'}} >
                         <p><strong>Sáude:</strong> {asset.healthscore}
-                        <Tag color="red" style={{marginLeft: 20}}>{asset.status}</Tag>
+                        <Tag
+                          color={translateStatus(asset.status)?.color}
+                          style={{marginLeft: 20}}>{translateStatus(asset.status)?.status}</Tag>
                         </p>
                         <p><strong>Empresa: </strong> Tractian</p>
                         <p><strong>Unidade: </strong> Jaguar</p>

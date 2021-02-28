@@ -4,13 +4,17 @@ import { Row, Col, Modal, Form, Input, Select } from 'antd';
 interface NewItemModalProps {
   openNewItemModal: boolean;
   toggleModal: (value: boolean) => void;
+  selectUnits?: {
+    value: number,
+    display: string
+  }[],
   selectCompanies?: {
     value: number,
     display: string
   }[]
 }
 
-const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModal, selectCompanies}) => {
+const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModal, selectCompanies, selectUnits}) => {
 
   return (
     <Modal
@@ -33,6 +37,28 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
             rules={[{ required: true, message: 'Please input the title of collection!' }]}
           >
             <Input />
+          </Form.Item>
+        </Col>
+
+        <Col span={12}>
+          <Form.Item
+            name="email"
+            label="E-mail"
+            rules={[{ required: true, message: 'Please input the title of collection!' }]}
+          >
+            <Input />
+          </Form.Item>
+        </Col>
+
+        <Col span={12}>
+        <Form.Item
+          name="unit"
+          label="Unidade">
+            <Select onChange={(e) => console.log(e)}>
+              {selectUnits?.map(unit => (
+                <Select.Option key={unit.value} value={unit.value}>{unit.display}</Select.Option>
+              ))}
+            </Select>
           </Form.Item>
         </Col>
 
