@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react';
+import '../../styles.css';
+
 import { UploadOutlined } from '@ant-design/icons';
-import { Row, Col, Modal, Form, Input, Upload, Button, Slider, Select, InputNumber, DatePicker, message } from 'antd';
+import { Row, Col, Modal, Form, Input, Upload, Button, Slider, Select, InputNumber, DatePicker, message, notification } from 'antd';
+
+import api from '../../../../../../services/api';
+import { Asset } from '../../../../../../@types/asset';
 
 interface NewItemModalProps {
   openNewItemModal: boolean;
   toggleModal: (value: boolean) => void;
+  selectedTableRow?: React.Key,
   selectUnits?: {
     value: number,
     display: string
@@ -15,36 +21,15 @@ interface NewItemModalProps {
   }[]
 }
 
+const NewItemModal: React.FC<NewItemModalProps> = ({
+  openNewItemModal,
+  toggleModal,
+  selectedTableRow,
+  selectCompanies,
+  selectUnits}) => {
 
-const Uploader = () => {
-  const [fileList, updateFileList] = useState([]);
-  const props = {
-    fileList,
-    beforeUpload: (file: any) => {
-      if (file.type !== 'image/png') {
-        message.error(`${file.name} is not a png file`);
-      }
-      return false;
-    },
-    onChange: (info: any) => {
-
-      // To show the file without error symbol
-      info.fileList[0].status = "sucess";
-
-      updateFileList(info.fileList.filter((file: any) => file.status));
-
-    }
-
-  };
-  return (
-    <Upload {...props}>
-      <Button icon={<UploadOutlined />}>Upload png only</Button>
-    </Upload>
-  );
-};
-
-const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModal, selectCompanies, selectUnits}) => {
   const [form] = Form.useForm();
+  const [initialValues, setInitialValues] = useState<Asset>();
   const [fileList, updateFileList] = useState([]);
 
   const props = {
@@ -66,27 +51,68 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
 
   };
 
+  const openNotification = (message: string, description: string) => {
+    notification.success({
+      message,
+      description,
+    });
+  };
+
+  async function postData(values: any){
+    try {
+      await api.post("/assets", { values })
+
+      form.resetFields();
+
+      toggleModal(false);
+
+      openNotification("Ativo cadastrado", "Seu ativo foi enviado com sucesso.");
+
+    } catch (error) {
+
+    }
+  }
+
+  useEffect(() => {
+    async function loadInitialValues() {
+      const {data} = await api.get<Asset>(`/assets/${selectedTableRow}`);
+
+      if(data) setInitialValues(data);
+    }
+
+      if(selectedTableRow) loadInitialValues()
+  }, [selectedTableRow])
+
   return (
-    <Modal
-          style={{minWidth:900, padding: "0px 100px", top: 10}}
+      <Modal
+          className="newItemModal"
           visible={openNewItemModal}
+          afterClose={() => {
+            form.resetFields();
+            setInitialValues({})
+          }}
           title="Novo item"
           onOk={() => {
-            console.log("entrou", form.getFieldsValue())
-            form.validateFields().then(values => console.log('teste', values))
+            form.
+            validateFields()
+            .then(values => postData(values))
+            //setInitialValues({})
           }}
-          onCancel={() => toggleModal(false)}
+          onCancel={() => {
+            toggleModal(false)
+            setInitialValues({})
+          }}
           okText="Adicionar"
           cancelText="Cancelar"
         >
-          <Form form={form} name="form_newItem" onFinish={(values) => console.log(values)}>
+          <Form initialValues={initialValues} form={form} name="form_newItem">
           <strong >Geral</strong>
             <Row gutter={24} >
-              <Col span={12} style={{marginBottom: 20}}>
+              <Col span={12} className="formColumnModal">
                 <Form.Item
                   name="name"
                   label="Nome"
-                  rules={[{ required: true, message: 'Please input the title of collection!' }]}
+                  rules={[{ required: true, message: 'Insira o nome do ativo!' }]}
                 >
                   <Input />
                 </Form.Item>
@@ -97,7 +123,6 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
                 label="Upload"
                 valuePropName= "fileList"
                 getValueFromEvent={(e: any) => {
-                  console.log('Upload event:', e);
                   if (Array.isArray(e)) {
                     return e;
                   }
@@ -109,8 +134,8 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
                   </Upload>
                 </Form.Item>
               </Col>
-              <Col span={12} style={{marginBottom: 20}}>
-                <Form.Item name="heathly" label="Saúde">
+              <Col span={12} className="formColumnModal">
+                <Form.Item name="healthscore" label="Saúde">
                   <Slider />
                 </Form.Item>
               </Col>
@@ -118,23 +143,24 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
               <Form.Item
                 name="status"
                 label="Status">
-                  <Select onChange={(e) => console.log(e)}>
+                  <Select>
                     <Select.Option value="inAlert">Em alerta</Select.Option>
                     <Select.Option value="inOperation">Em operação</Select.Option>
                     <Select.Option value="inDowntime">Em parada</Select.Option>
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={12} style={{marginBottom: 20}}>
+              <Col span={12} className="formColumnModal">
                 <Form.Item
                 name="sensors"
                 label="Sensores instalados"
                 rules={[{ required: true, message: 'Selecione um sensor', type: 'array' }]}
                 >
                   <Select mode="multiple" placeholder="Selecione alguns sensores" style={{minWidth: 200}}>
-                    <Select.Option value="red">Red</Select.Option>
-                    <Select.Option value="green">Green</Select.Option>
-                    <Select.Option value="blue">Blue</Select.Option>
+                    <Select.Option value="GSJ1535">GSJ1535</Select.Option>
+                    <Select.Option value="IBS1636">IBS1636</Select.Option>
+                    <Select.Option value="JVC1134">JVC1134</Select.Option>
+                    <Select.Option value="LZY5230">LZY5230</Select.Option>
                   </Select>
                 </Form.Item>
               </Col>
@@ -142,7 +168,7 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
               <Form.Item
                 name="unit"
                 label="Unidade">
-                  <Select onChange={(e) => console.log(e)}>
+                  <Select>
                     {selectUnits?.map(unit => (
                       <Select.Option key={unit.value} value={unit.value}>{unit.display}</Select.Option>
                     ))}
@@ -153,7 +179,7 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
               <Form.Item
                 name="company"
                 label="Empresa">
-                  <Select onChange={(e) => console.log(e)}>
+                  <Select>
                     {selectCompanies?.map(company => (
                       <Select.Option key={company.value} value={company.value}>{company.display}</Select.Option>
                     ))}
@@ -163,10 +189,10 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
             </Row>
 
             <strong>Especificações</strong>
-            <Row gutter={24} title="Especificações" style={{marginTop: 20, fontSize: 40, color: "#000"}}>
+            <Row gutter={24} title="Especificações" className="specificationsRow">
               <Col span={8}>
                 <Form.Item
-                  name="maxTemp"
+                  name="specifications.maxTemp"
                   label="Temp. Máx. (ºC)">
                     <InputNumber min={0} step={0.1} />
                 </Form.Item>

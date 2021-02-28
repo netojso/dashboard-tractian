@@ -65,84 +65,82 @@ let optionModel: Highcharts.Options = {
     }
 }
 const Overview: React.FC = () => {
-const [loading, setLoading] = useState(true);
-const [assets, setAssets] = useState<Asset[]>();
-const [units, setUnits] = useState<Unit[]>();
-const [companies, setCompanies] = useState<Company[]>();
-const [users, setUsers] = useState<User[]>();
+  const [loading, setLoading] = useState(true);
+  const [assets, setAssets] = useState<Asset[]>();
+  const [units, setUnits] = useState<Unit[]>();
+  const [companies, setCompanies] = useState<Company[]>();
+  const [users, setUsers] = useState<User[]>();
 
-const [options, setOptions] = useState<Highcharts.Options>({});
+  const [options, setOptions] = useState<Highcharts.Options>({});
 
-useEffect(() => {
+  useEffect(() => {
     async function loadData() {
-        const {data: assetsData} = await api.get<Asset[]>('/assets');
-        const {data: unitsData} = await api.get<Unit[]>('/units');
-        const {data: companiesData} = await api.get<Company[]>('/companies');
-        const {data: usersData} = await api.get<User[]>('/users');
+      const {data: assetsData} = await api.get<Asset[]>('/assets');
+      const {data: unitsData} = await api.get<Unit[]>('/units');
+      const {data: companiesData} = await api.get<Company[]>('/companies');
+      const {data: usersData} = await api.get<User[]>('/users');
 
-        Object.assign(optionModel, {
-         series: [{
-             type: 'column',
-             name: 'Heathly',
-             data:  assetsData
-                    .slice(Math.max(assetsData.length - 8, 0))
-                    .map(asset => [asset.name, asset.healthscore] )
-         }]
-        })
+      Object.assign(optionModel, {
+        series: [{
+            type: 'column',
+            name: 'Heathly',
+            data:  assetsData
+                  .slice(Math.max(assetsData.length - 8, 0))
+                  .map(asset => [asset.name, asset.healthscore] )
+        }]
+      })
 
-        setOptions(optionModel);
+      setOptions(optionModel);
 
-        setAssets(assetsData);
-        setUnits(unitsData);
-        setCompanies(companiesData);
-        setUsers(usersData);
+      setAssets(assetsData);
+      setUnits(unitsData);
+      setCompanies(companiesData);
+      setUsers(usersData);
 
-        setLoading(false);
+      setLoading(false);
     }
 
-    loadData();
-}, [])
+      loadData();
+  }, [])
 
   return (
     <>
-    <Layout.Content style={{ margin: '24px 16px 0', maxHeight: 150 }}>
+    <Layout.Content className="layoutContentCards">
         <Row gutter={40} style={{textAlign: 'center'}}>
            <InfoCard title="Ativos" quantity={assets?.length} loading={loading} />
            <InfoCard title="Unidades" quantity={units?.length} loading={loading} />
            <InfoCard title="Empresas" quantity={companies?.length} loading={loading} />
            <InfoCard title="Usuários" quantity={users?.length} loading={loading} />
         </Row>
-        </Layout.Content>
-        <Layout.Content
-          style={{ background: '#fff', margin: '12px 16px', padding: 24,minHeight: 280}}>
-          <Row>
-            <Col span={18}>
-              <Skeleton className="skeleton-chart" active loading={loading} paragraph={{rows: 6}}/>
-              {!loading && (
-                  <HighchartsReact
-                  highcharts={Highcharts}
-                  options={options}
-                  />
-              )}
-            </Col>
-                <Col span={6} title="Últimos ativos">
-                  <p style={{padding: '4px 20px', fontSize: 18}}>Últimos ativos</p>
-                  <div  style={{overflow: 'auto', height: 400, marginTop: 10, marginLeft: 10}}>
-                    {assets?.map(asset => (
-                        <Card key={asset.id} title={asset.name} bordered={false} style={{borderLeft: '1px solid #DFE0EB'}} >
-                        <p><strong>Sáude:</strong> {asset.healthscore}
-                        <Tag
-                          color={translateStatus(asset.status)?.color}
-                          style={{marginLeft: 20}}>{translateStatus(asset.status)?.status}</Tag>
-                        </p>
-                        <p><strong>Empresa: </strong> Tractian</p>
-                        <p><strong>Unidade: </strong> Jaguar</p>
-                      </Card>
-                    ))}
-                  </div>
-
-                </Col>
-            </Row>
+    </Layout.Content>
+    <Layout.Content className="layoutContentCharts">
+        <Row>
+          <Col span={18}>
+            <Skeleton className="skeleton-chart" active loading={loading} paragraph={{rows: 6}}/>
+            {!loading && (
+                <HighchartsReact
+                highcharts={Highcharts}
+                options={options}
+                />
+            )}
+          </Col>
+          <Col span={6} title="Últimos ativos">
+              <p className="assetsTitle">Últimos ativos</p>
+              <div className="assetsScroll">
+                {assets?.map(asset => (
+                  <Card key={asset.id} title={asset.name} bordered={false} style={{borderLeft: '1px solid #DFE0EB'}} >
+                    <p><strong>Sáude:</strong> {asset.healthscore}
+                    <Tag
+                      color={translateStatus(asset.status)?.color}
+                      style={{marginLeft: 20}}>{translateStatus(asset.status)?.status}</Tag>
+                    </p>
+                    <p><strong>Empresa: </strong> Tractian</p>
+                    <p><strong>Unidade: </strong> Jaguar</p>
+                  </Card>
+                ))}
+              </div>
+          </Col>
+        </Row>
     </Layout.Content>
     </>
   );

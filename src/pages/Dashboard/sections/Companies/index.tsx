@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import './styles.css';
+import '../../../../App.css';
 
 import { Layout, Table } from 'antd';
+import { SyncOutlined } from '@ant-design/icons';
 
 import TableOptions from '../../components/TableOptions';
 import NewItemModal from './components/NewItemModal';
@@ -9,14 +10,7 @@ import { Asset } from '../../../../@types/asset';
 import { Company } from '../../../../@types/company';
 import { Unit } from '../../../../@types/unit';
 import api from '../../../../services/api';
-import { SyncOutlined } from '@ant-design/icons';
 
-const { Content } = Layout;
-
-interface DataType {
-  key: React.Key;
-  name: string;
-}
 
 const columns = [
   {
@@ -33,22 +27,16 @@ const columns = [
   }
 ];
 
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-  },
-  getCheckboxProps: (record: DataType) => ({
-    disabled: record.name === 'Disabled User', // Column configuration not to be checked
-    name: record.name,
-  }),
-};
-
-
 const Companies: React.FC = () => {
   const [loading, setLoading] = useState(true);
-
-  const [openNewItemModal, setOpenNewItemModal] = useState(false);
   const [tableData, setTableData] = useState<any>();
+
+  const [selectedTableRows, setSelectedTableRows] = useState<React.Key[]>([]);
+  const [openNewItemModal, setOpenNewItemModal] = useState(false);
+
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[]) => {setSelectedTableRows(selectedRowKeys)},
+  };
 
   useEffect(() => {
     async function loadData() {
@@ -76,15 +64,9 @@ const Companies: React.FC = () => {
 
 
   return (
-    <Content
-    style={{
-    background: '#fff',
-      margin: '20px 16px',
-      padding: 24,
-      minHeight: 280,
-    }}
-  >
-    <TableOptions openModal={setOpenNewItemModal} />
+    <Layout.Content className="layoutContent">
+
+    <TableOptions openModal={setOpenNewItemModal} selectedTableRows={selectedTableRows}/>
 
       {!loading ? (
         <Table
@@ -98,7 +80,7 @@ const Companies: React.FC = () => {
 
     <NewItemModal openNewItemModal={openNewItemModal} toggleModal={setOpenNewItemModal} />
 
-</Content>
+</Layout.Content>
     );
 }
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../../../../../../App.css';
 import { Row, Col, Modal, Form, Input } from 'antd';
 
 interface NewItemModalProps {
@@ -10,7 +11,7 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
 
   return (
     <Modal
-      style={{minWidth: 700, padding: "0px 40px"}}
+      className="newItemModal"
       visible={openNewItemModal}
       centered
       title="Novo item"
@@ -26,13 +27,13 @@ const NewItemModal: React.FC<NewItemModalProps> = ({openNewItemModal, toggleModa
             <Form.Item
               name="name"
               label="Nome"
-              rules={[{ required: true, message: 'Please input the title of collection!' }]}
+              rules={[{ required: true, message: 'Insira o nome da empresa!' }]}
             >
               <Input />
             </Form.Item>
           </Col>
         </Row>
-      </Form>    
+      </Form>
     </Modal>
   );
 }

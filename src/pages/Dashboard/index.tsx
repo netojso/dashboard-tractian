@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
+import '../../App.css';
 
 import { Menu, Layout, PageHeader, Avatar } from 'antd';
-import { SearchOutlined, UploadOutlined, UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
 import Ativos from './Sections/Ativos';
 import Overview from './Sections/Overview';
 import Companies from './Sections/Companies';
@@ -39,13 +39,13 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout className="layoutDashboard">
 
       <Sider breakpoint="lg" collapsedWidth="0">
 
-        <div style={{ width: 256, padding: "10px 20px" }}>
+        <div className="menuHeader">
           <Avatar src="https://tractian.com/wp-content/uploads/cropped-tractian-favicon-ia-32x32.png" />
-          <strong style={{ marginLeft: 10, color: '#fff', letterSpacing: 1, fontSize: 18, fontWeight: 400 }}>Tractian</strong>
+          <strong className="menuHeaderTitle">Tractian</strong>
         </div>
 
         <Menu theme="dark" mode="inline" defaultSelectedKeys={["Overview"]} onSelect={(e) => setPage(e.key.toString())}>
@@ -68,10 +68,9 @@ const Dashboard: React.FC = () => {
       </Sider>
 
       <Layout>
-        <Header style={{ padding: 0, background: "#fff" }}>
+        <Header className="layoutHeader">
           <PageHeader title={page} style={{ background: "#fff" }}
             extra={[
-              <SearchOutlined />,
               <Avatar src="https://tractian.com/wp-content/uploads/cropped-tractian-favicon-ia-32x32.png" />
             ]}/>
         </Header>

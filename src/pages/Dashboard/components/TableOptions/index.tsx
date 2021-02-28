@@ -1,37 +1,57 @@
 import React from 'react';
-import { DeleteOutlined, EditOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Row, Col, Button } from 'antd';
+import { DeleteOutlined, EditOutlined, ExclamationCircleOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Row, Col, Button, Modal } from 'antd';
 
-// import { Container } from './styles';
-
+import './styles.css';
+import api from '../../../../services/api';
 interface TableOptionsProps {
+  selectedTableRows: React.Key[],
   openModal: (value: boolean) => void;
 }
 
-const TableOptions: React.FC<TableOptionsProps> = ({openModal}) => {
+const TableOptions: React.FC<TableOptionsProps> = ({openModal, selectedTableRows}) => {
+
+  async function deleteData() {
+    Modal.confirm({
+      title: 'Confirmação',
+      icon: <ExclamationCircleOutlined color="blue"/>,
+      content: "Tem certeza que deseja excluir estes ativos?",
+      okText: "Deletar",
+      cancelText: "Cancelar",
+      onOk: () => {
+        selectedTableRows.forEach(async row => {
+          await api.delete(`/assets/${row}`)
+        })
+      }
+    })
+  }
+
   return (
-    <Row style={{marginBottom: 20}}>
+    <Row className="row">
       <Col span={6} offset={0}>
         <Button
-        style={{marginRight: 10}}
-        onClick={() => {}}
+        className="button"
+        onClick={() => {deleteData()}}
+        disabled={selectedTableRows.length <= 0}
         type="primary"
         shape="circle"
-        icon={<DeleteOutlined style={{fontSize: 20, color: '#fff'}} />} />
+        icon={<DeleteOutlined />} />
 
         <Button
-        style={{marginRight: 10}}
+        className="button"
         onClick={() => openModal(true)}
+        disabled={selectedTableRows.length > 1 || selectedTableRows.length === 0}
         type="primary"
         shape="circle"
-        icon={<EditOutlined style={{fontSize: 20, color: '#fff'}} />} />
+        icon={<EditOutlined />} />
 
         <Button
-        style={{marginRight: 10}}
+        className="button"
         onClick={() => openModal(true)}
+        disabled={selectedTableRows.length > 0}
         type="primary"
         shape="circle"
-        icon={<PlusCircleOutlined style={{fontSize: 20, color: '#fff'}} />} />
+        icon={<PlusCircleOutlined />} />
       </Col>
   </Row>
   );

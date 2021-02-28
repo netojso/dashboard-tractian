@@ -1,10 +1,13 @@
+import React from 'react';
+import '../../styles.css';
+
 import { EditOutlined } from '@ant-design/icons';
 import { Row, Col, Carousel, Card, Tag, Tree } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import Modal from 'antd/lib/modal/Modal';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import React from 'react';
+
 import { Asset } from '../../../../../../@types/asset';
 import translateStatus from '../../../../../../utils/translateStatus';
 
@@ -151,7 +154,7 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
         </Carousel>
       </Col>
 
-      <Col span={8} style={{marginLeft: 40}}>
+      <Col span={8} className="infoModalColumn">
       <Card
         style={{ width: 300 }}
         cover={
@@ -169,7 +172,7 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
             <strong>{asset?.name}</strong>,
             <Tag
               color={translateStatus(asset?.status)?.color}
-              style={{marginLeft: 70}}>{translateStatus(asset?.status)?.status}</Tag>
+              className="infoModalTag">{translateStatus(asset?.status)?.status}</Tag>
           ]}
           description={[
               <p><strong>Saúde:</strong> {asset?.healthscore + '%'}</p>,

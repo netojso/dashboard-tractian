@@ -6,3 +6,34 @@
   left: 50%;
 }
 
+.layoutContent {
+  background: #fff;
+  margin: 20px 16px;
+  padding: 24px;
+  min-height: 280px;
+  position: relative
+}
+
+.infoModalColumn {
+  margin-left: 40px;
+}
+
+.infoModalTag {
+  margin-left: 70px;
+}
+
+.specificationsRow {
+  margin-top: 20px;
+  font-size: 40px;
+  color: #000;
+}
+
+.newItemModal {
+  min-width: 900px;
+  padding: 0px 100px;
+  top: 10;
+}
+
+.formColumnModal {
+  margin-bottom: 20px;
+}

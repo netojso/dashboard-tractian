@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Layout, Table, Tag } from 'antd';
 import './styles.css';
 
+import { SyncOutlined } from '@ant-design/icons';
 import Highcharts from "highcharts/highcharts.js";
 import highchartsMore from "highcharts/highcharts-more.js"
 import solidGauge from "highcharts/modules/solid-gauge.js";
@@ -16,16 +17,13 @@ import { Asset } from '../../../../@types/asset';
 import { Company } from '../../../../@types/company';
 import { Unit } from '../../../../@types/unit';
 import api from '../../../../services/api';
-import { SyncOutlined } from '@ant-design/icons';
 import translateStatus from '../../../../utils/translateStatus';
 
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[]) => {console.log(selectedRowKeys)},
-};
 
 const Ativos: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [selectedAssetKey, setSelectedAssetKey] = useState(0);
+  const [selectedTableRows, setSelectedTableRows] = useState<React.Key[]>([]);
 
   const [openInfoModal, setOpenInfoModal] = useState(false);
   const [openNewItemModal, setOpenNewItemModal] = useState(false);
@@ -79,8 +77,12 @@ const Ativos: React.FC = () => {
     },
   ];
 
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[]) => {setSelectedTableRows(selectedRowKeys)},
+  };
 
   useEffect(() => {
+
     async function loadData() {
       const {data: assetsData} = await api.get<Asset[]>('/assets');
       const {data: companiesData} = await api.get<Company[]>('/companies');
@@ -112,15 +114,9 @@ const Ativos: React.FC = () => {
 }, [])
 
   return (
-    <Layout.Content
-      style={{
-        background: '#fff',
-        margin: '20px 16px',
-        padding: 24,
-        minHeight: 280,
-        position: 'relative'
-      }}>
-        <TableOptions openModal={setOpenNewItemModal} />
+    <Layout.Content className="layoutContent">
+
+        <TableOptions openModal={setOpenNewItemModal} selectedTableRows={selectedTableRows}/>
 
         {!loading ? (
           <Table
@@ -144,6 +140,7 @@ const Ativos: React.FC = () => {
           asset={assets?.find(a => a.id === selectedAssetKey)}/>
 
         <NewItemModal
+          selectedTableRow={selectedTableRows[0]}
           selectCompanies={selectCompanies}
           selectUnits={selectUnits}
           openNewItemModal={openNewItemModal}

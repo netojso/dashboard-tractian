@@ -1,58 +1,50 @@
 import React, { useEffect, useState } from 'react';
-import './styles.css';
+import '../../../../App.css';
 
 import { Layout, Table } from 'antd';
 
 import TableOptions from '../../components/TableOptions';
 import NewItemModal from './components/NewItemModal';
-import { Asset } from '../../../../@types/asset';
 import { Company } from '../../../../@types/company';
 import { Unit } from '../../../../@types/unit';
 import api from '../../../../services/api';
 import { SyncOutlined } from '@ant-design/icons';
 import { User } from '../../../../@types/user';
 
-const { Content } = Layout;
-
-interface DataType {
-  key: React.Key;
-  name: string;
-  company: string;
-  assets: number;
-}
-
-const columns = [
-  {
-    title: 'Nome',
-    dataIndex: 'name',
-  },
-  {
-    title: 'E-mail',
-    dataIndex: 'email',
-  },
-  {
-    title: 'Unidade',
-    dataIndex: 'unit',
-  },
-  {
-    title: 'Empresa',
-    dataIndex: 'company',
-  },
-
-];
-
-const rowSelection = {
-  onChange: (selectedRowKeys: React.Key[]) => {console.log(selectedRowKeys)},
-};
-
 
 const Users: React.FC = () => {
   const [loading, setLoading] = useState(true);
+  const [selectedTableRows, setSelectedTableRows] = useState<React.Key[]>([]);
+
   const [companies, setCompanies] = useState<{value: number, display: string}[]>([]);
   const [units, setUnits] = useState<{value: number, display: string}[]>([]);
 
   const [openNewItemModal, setOpenNewItemModal] = useState(false);
   const [tableData, setTableData] = useState<any>();
+
+  const rowSelection = {
+    onChange: (selectedRowKeys: React.Key[]) => {setSelectedTableRows(selectedRowKeys)},
+  };
+
+  const columns = [
+    {
+      title: 'Nome',
+      dataIndex: 'name',
+    },
+    {
+      title: 'E-mail',
+      dataIndex: 'email',
+    },
+    {
+      title: 'Unidade',
+      dataIndex: 'unit',
+    },
+    {
+      title: 'Empresa',
+      dataIndex: 'company',
+    },
+
+  ];
 
   useEffect(() => {
     async function loadData() {
@@ -91,29 +83,22 @@ const Users: React.FC = () => {
 }, [])
 
   return (
-    <Content
-    style={{
-    background: '#fff',
-      margin: '20px 16px',
-      padding: 24,
-      minHeight: 280,
-    }}
-  >
-    <TableOptions openModal={setOpenNewItemModal} />
+    <Layout.Content className="layoutContent">
+      <TableOptions openModal={setOpenNewItemModal} selectedTableRows={selectedTableRows} />
 
-    {!loading ? (
-      <Table
-        rowSelection={rowSelection}
-        dataSource={tableData}
-        columns={columns}
-        />
-    ): (
-      <SyncOutlined className='spinLoading' spin />
-    )}
+      {!loading ? (
+        <Table
+          rowSelection={rowSelection}
+          dataSource={tableData}
+          columns={columns}
+          />
+      ): (
+        <SyncOutlined className='spinLoading' spin />
+      )}
 
-   <NewItemModal selectCompanies={companies} selectUnits={units} openNewItemModal={openNewItemModal} toggleModal={setOpenNewItemModal} />
+    <NewItemModal selectCompanies={companies} selectUnits={units} openNewItemModal={openNewItemModal} toggleModal={setOpenNewItemModal} />
 
-</Content>
+  </Layout.Content>
     );
 }
 

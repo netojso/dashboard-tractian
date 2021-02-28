@@ -42,8 +42,53 @@
   background: transparent;
 }
 
+.layoutDashboard {
+  min-height: 100vh;
+}
+
+.menuHeader {
+  width: 256px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+.menuHeaderTitle {
+  margin-left: 15px;
+  color: #fff;
+  letter-spacing: 1px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.layoutHeader {
+  padding: 0;
+  background: #fff;
+}
+
 .highcharts-label .highcharts-tooltip .highcharts-color-0 {
   opacity: 1 !important;
   visibility: visible !important;
   transform: translate(263px, 218px) !important;
+}
+
+.spinLoading {
+  font-size: 80px;
+  color: rgb(216, 216, 216);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+}
+
+.newItemModal {
+  min-width: 700px;
+  padding: 0px 40px;
+}
+
+.layoutContent {
+  background: #fff;
+  margin: 20px 16px;
+  padding: 24px;
+  min-height: 280px;
 }
