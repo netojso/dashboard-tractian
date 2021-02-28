@@ -130,7 +130,7 @@ const NewItemModal: React.FC<NewItemModalProps> = ({
                 }}
                 >
                   <Upload {...props}>
-                    <Button icon={<UploadOutlined />}>Upload png only</Button>
+                    <Button icon={<UploadOutlined />}>Carregar imagem</Button>
                   </Upload>
                 </Form.Item>
               </Col>
@@ -150,7 +150,7 @@ const NewItemModal: React.FC<NewItemModalProps> = ({
                   </Select>
                 </Form.Item>
               </Col>
-              <Col span={12} className="formColumnModal">
+              <Col span={10} className="formColumnModal">
                 <Form.Item
                 name="sensors"
                 label="Sensores instalados"
@@ -167,8 +167,9 @@ const NewItemModal: React.FC<NewItemModalProps> = ({
               <Col span={6}>
               <Form.Item
                 name="unit"
-                label="Unidade">
-                  <Select>
+                label="Unidade"
+                style={{width: 100}}>
+                  <Select style={{width: 150}}>
                     {selectUnits?.map(unit => (
                       <Select.Option key={unit.value} value={unit.value}>{unit.display}</Select.Option>
                     ))}
@@ -178,8 +179,10 @@ const NewItemModal: React.FC<NewItemModalProps> = ({
               <Col span={6}>
               <Form.Item
                 name="company"
-                label="Empresa">
-                  <Select>
+                label="Empresa"
+                style={{width: 100}}
+                >
+                  <Select style={{width: 150}}>
                     {selectCompanies?.map(company => (
                       <Select.Option key={company.value} value={company.value}>{company.display}</Select.Option>
                     ))}
@@ -207,7 +210,8 @@ const NewItemModal: React.FC<NewItemModalProps> = ({
               <Col span={8}>
                 <Form.Item
                   name="rpm"
-                  label="Rotação (RPM)">
+                  label="Rotação (RPM)"
+                  style={{width: 100}}>
                   <InputNumber min={0} />
                 </Form.Item>
               </Col>
@@ -232,8 +236,9 @@ const NewItemModal: React.FC<NewItemModalProps> = ({
               <Col span={8}>
                 <Form.Item
                   name="lastUptimeAt"
-                  label="Data da Última Coleta">
-                  <DatePicker />
+                  label="Data da Última Coleta"
+                  style={{width: 150}}>
+                  <DatePicker placeholder="Data"/>
                 </Form.Item>
               </Col>
             </Row>

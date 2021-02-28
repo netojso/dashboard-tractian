@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+<h1>Dashboard Tractian - UI</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <img src="https://img.shields.io/static/v1?label=react&message=framework&color=blue&style=for-the-badge&logo=REACT"/>
+   <img src="https://img.shields.io/static/v1?label=typescript&message=language&color=blue&style=for-the-badge&logo=TYPESCRIPT"/>
+   <img src="http://img.shields.io/static/v1?label=STATUS&message=CONCLUIDO&color=GREEN&style=for-the-badge"/>
+</p>
 
-## Available Scripts
+### Deploy
 
-In the project directory, you can run:
+[Acesse a aplicação. Clique aqui!](https://bella-olonje.vercel.app/)
 
-### `yarn start`
+### Tópicos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+:small_blue_diamond: [Descrição do projeto](#descrição-do-projeto)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+:small_blue_diamond: [Pré-requisitos](#pré-requisitos)
 
-### `yarn test`
+:small_blue_diamond: [Como rodar a aplicação](#como-rodar-a-aplicação-arrow_forward)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+## Descrição do projeto
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="justify">
+  Aplicação que exibe informações de ativos, unidades e empresas de uma API, no ramo de manutenção industrial.
+</p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Layout:
 
-### `yarn eject`
+![Home](https://github.com/netojso/bella-olonje-food-ui/blob/main/src/assets/bella-olonje-food.gif)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Pré-requisitos
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+:warning:  [ Node](https://nodejs.org/en/download/)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Como rodar a aplicação :arrow_forward:
 
-## Learn More
+No terminal, clone o projeto:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+git clone https://github.com/netojso/dashboard-tractian.git
+```
+Acesse a pasta raiz do repositório clonado e rode:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+yarn install
+```
+
+No terminal, rode:
+
+```
+yarn start
+```
+
+## Dependencias e libs utilizadas :books:
+
+- [React](https://pt-br.reactjs.org/docs/create-a-new-react-app.html)
+- [AntDesign](https://ant.design/)
+
+## Desenvolvedores/Contribuintes :octocat:
+
+**Linkedin:** [Octacilio Serafim](https://www.linkedin.com/in/octacilio-serafim/)
+
