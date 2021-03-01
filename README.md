@@ -8,7 +8,7 @@
 
 ### Deploy
 
-[Acesse a aplicação. Clique aqui!](https://bella-olonje.vercel.app/)
+[Acesse a aplicação. Clique aqui!](dashboard-tractian.vercel.app)
 
 ### Tópicos
 
