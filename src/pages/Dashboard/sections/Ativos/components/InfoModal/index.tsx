@@ -120,7 +120,7 @@ const InfoModal: React.FC<InfoModalProps> = ({openInfoModal, toggleModal, asset}
         key: '2',
       },
       {
-        title: `Horas coletadads: ${asset?.metrics?.totalUptime?.toPrecision(2)}h`,
+        title: `Horas coletadads: ${asset?.metrics?.totalUptime?.toFixed(2)}h`,
         key: '3',
       },
       {
