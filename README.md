@@ -28,7 +28,7 @@
 
 ## Layout:
 
-![Home](https://github.com/netojso/bella-olonje-food-ui/blob/main/src/assets/bella-olonje-food.gif)
+![Dashboard](https://github.com/netojso/dashboard-tractian/blob/master/dashboard.gif)
 
 ## Pré-requisitos
 
