@@ -8,7 +8,7 @@
 
 ### Deploy
 
-[Acesse a aplicação. Clique aqui!](dashboard-tractian.vercel.app)
+[Acesse a aplicação. Clique aqui!](https://dashboard-tractian.vercel.app/)
 
 ### Tópicos
 
@@ -32,7 +32,7 @@
 
 ## Pré-requisitos
 
-:warning:  [ Node](https://nodejs.org/en/download/)
+:warning:   [ Node](https://nodejs.org/en/download/)
 
 
 ## Como rodar a aplicação :arrow_forward:
