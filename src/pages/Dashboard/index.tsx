@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import '../../App.css';
 
 import { Menu, Layout, PageHeader, Avatar } from 'antd';
-import Ativos from './Sections/Ativos/index';
-import Overview from './Sections/Overview/index';
-import Companies from './Sections/Companies/index';
-import Units from './Sections/Units/index';
-import Users from './Sections/Users/index';
+import Ativos from './sections/Ativos/index';
+import Overview from './sections/Overview/index';
+import Companies from './sections/Companies/index';
+import Units from './sections/Units/index';
+import Users from './sections/Users/index';
 
 
 const { Header, Sider } = Layout;
